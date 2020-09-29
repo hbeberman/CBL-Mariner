@@ -208,6 +208,7 @@ chroot_and_install_rpms mariner-check-macros
 build_rpm_in_chroot_no_install filesystem
 build_rpm_in_chroot_no_install kernel-headers
 build_rpm_in_chroot_no_install glibc
+build_rpm_in_chroot_no_install libxcrypt
 build_rpm_in_chroot_no_install zlib
 build_rpm_in_chroot_no_install file
 build_rpm_in_chroot_no_install binutils
