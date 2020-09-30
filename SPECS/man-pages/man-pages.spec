@@ -1,7 +1,7 @@
 Summary:        Man pages
 Name:           man-pages
 Version:        4.16
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv2+ and GPLv2 and BSD and Latex2e and Verbatim and GPL+ and BSD with advertising and MIT and LDPL and Public Domain
 URL:            https://www.kernel.org/doc/man-pages
 Group:          System Environment/Base
@@ -20,6 +20,7 @@ The Man-pages package contains over 1,900 man pages.
 %install
 make DESTDIR=%{buildroot} install
 #	The following man pages conflict with other packages
+rm -vf %{buildroot}%{_mandir}/man3/crypt{,_r}.3
 rm -vf %{buildroot}%{_mandir}/man3/getspnam.3
 rm -vf %{buildroot}%{_mandir}/man5/passwd.5
 
@@ -37,9 +38,10 @@ rm -vf %{buildroot}%{_mandir}/man5/passwd.5
 %{_mandir}/man8/*
 
 %changelog
-* Sat May 09 00:20:51 PST 2020 Nick Samson <nisamson@microsoft.com> - 4.16-4
-- Added %%license line automatically and updated licenses.
-
+*   Tue Sep 29 2020 Henry Beberman <henry.beberman@microsoft.com> 4.16-5
+-   Remove conflict with libxcrypt
+*   Sat May 09 00:20:51 PST 2020 Nick Samson <nisamson@microsoft.com> - 4.16-4
+-   Added %%license line automatically and updated licenses.
 *   Wed Apr 15 2020 Nick Samson <nisamson@microsoft.com> 4.16-3
 -   Updated Source0, URL; license verified.
 *   Tue Sep 03 2019 Mateusz Malisz <mamalisz@microsoft.com> 4.16-2

@@ -28,8 +28,10 @@
 
 
 # Build the static library?
+%bcond_with new_api
+%bcond_with compat_pkg
 %bcond_with staticlib
-
+%bcond_with enosys_stubs
 
 # Shared object version of libcrypt.
 %if %{with new_api}
@@ -53,12 +55,12 @@
 
 
 # First version of glibc built without libcrypt.
-%global glibc_minver     2.27
+%global glibc_minver     2.27-12
 
 
 # The libxcrypt-devel package conflicts with out-dated manuals
 # shipped with the man-pages packages *before* this EVR.
-%global man_pages_minver 4.15-3
+%global man_pages_minver 4.16-5
 
 
 # Hash methods and API supported by libcrypt.
@@ -147,7 +149,7 @@ BuildRequires:  autoconf
 BuildRequires:  automake
 #BuildRequires:  fipscheck
 BuildRequires:  gcc
-BuildRequires:  glibc-devel           >= %{glibc_minver}
+#BuildRequires:  glibc-devel           >= %{glibc_minver}
 BuildRequires:  libtool
 
 # We do not need to keep this forever.
@@ -228,7 +230,7 @@ Summary:        Development files for %{name}
 Conflicts:      man-pages              < %{man_pages_minver}
 
 Requires:       %{name}%{?_isa}        = %{version}-%{release}
-Requires:       glibc-devel%{?_isa}   >= %{glibc_minver}
+#Requires:       glibc-devel%{?_isa}   >= %{glibc_minver}
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
@@ -241,7 +243,6 @@ Summary:        Static library for -static linking with %{name}
 
 Requires:       %{name}-devel%{?_isa}  = %{version}-%{release}
 Requires:       glibc-devel%{?_isa}   >= %{glibc_minver}
-Requires:       glibc-static%{?_isa}  >= %{glibc_minver}
 
 %description    static
 This package contains the libxcrypt static library for -static
@@ -459,6 +460,7 @@ done
 %changelog
 * Mon Sep 28 2020 Henry Beberman <henry.beberman@microsoft.com> - 4.4.17-2
 - Initial CBL-Mariner import from Fedora 31 (license: MIT).
+- Remove dependency on fipscheck
 
 * Sun Aug 23 2020 Björn Esser <besser82@fedoraproject.org> - 4.4.17-1
 - New upstream release

@@ -5,7 +5,7 @@
 Summary:        Main C library
 Name:           glibc
 Version:        2.28
-Release:        12%{?dist}
+Release:        13%{?dist}
 License:        LGPLv2+
 URL:            https://www.gnu.org/software/libc
 Group:          Applications/System
@@ -45,6 +45,7 @@ and so on.
 Summary: Header files for glibc
 Group: Applications/System
 Requires: %{name} = %{version}-%{release}
+Requires: libxcrypt-devel%{_isa} >= 4.0.0
 %description devel
 These are the header files of glibc.
 
@@ -139,6 +140,7 @@ cd %{_builddir}/%{name}-build
 %ifarch x86_64
         --enable-cet \
 %endif
+        --disable-crypt \
         --disable-silent-rules
 
 # Sometimes we have false "out of memory" make error
@@ -308,6 +310,9 @@ grep "^FAIL: nptl/tst-eintr1" tests.sum >/dev/null && n=$((n+1)) ||:
 
 
 %changelog
+* Tue Sep 29 2020 Henry Beberman <henry.beberman@microsoft.com> - 2.28-13
+- Disable built-in crypt library and use libxcrypt instead.
+
 * Wed Jul 29 2020 Thomas Crain <thcrain@microsoft.com> - 2.28-12
 - Ignore CVE-2018-20796, as it is not a security issue
 
