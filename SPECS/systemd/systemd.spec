@@ -1,7 +1,7 @@
 Summary:          Systemd-239
 Name:             systemd
-Version:          239
-Release:          31%{?dist}
+Version:          246
+Release:          1%{?dist}
 License:          LGPLv2+ and GPLv2+ and MIT
 URL:              https://www.freedesktop.org/wiki/Software/systemd/
 Group:            System Environment/Security
@@ -13,28 +13,28 @@ Source1:          50-security-hardening.conf
 Source2:          systemd.cfg
 Source3:          99-dhcp-en.network
 
-Patch0:           01-enoX-uses-instance-number-for-vmware-hv.patch
-Patch1:           02-install-general-aliases.patch
-Patch2:           systemd-239-default-dns-from-env.patch
-Patch3:           systemd-macros.patch
-Patch4:           systemd-239-query-duid.patch
+#Patch0:           01-enoX-uses-instance-number-for-vmware-hv.patch
+#Patch1:           02-install-general-aliases.patch
+#Patch2:           systemd-239-default-dns-from-env.patch
+#Patch3:           systemd-macros.patch
+#Patch4:           systemd-239-query-duid.patch
 # Fix glibc-2.28 build issue. Checked in upstream after v239
-Patch5:           systemd-239-glibc-build-fix.patch
-Patch6:           systemd-239-revert-mtu.patch
-Patch7:           systemd-239-CVE-2018-15688.patch
-Patch8:           systemd-239-CVE-2018-15686.patch
-Patch9:           systemd-239-CVE-2018-15687.patch
-Patch10:          systemd-239-CVE-2018-16864.patch
-Patch11:          systemd-239-CVE-2018-16865.patch
-Patch12:          systemd-239-CVE-2018-16866.patch
-Patch13:          Backport-FOREACH_STRING-fix-for-gcc9.patch
-Patch14:          Disable-argument-to-mount_cgroup_controllers.patch
+#Patch5:           systemd-239-glibc-build-fix.patch
+#Patch6:           systemd-239-revert-mtu.patch
+#Patch7:           systemd-239-CVE-2018-15688.patch
+#Patch8:           systemd-239-CVE-2018-15686.patch
+#Patch9:           systemd-239-CVE-2018-15687.patch
+#Patch10:          systemd-239-CVE-2018-16864.patch
+#Patch11:          systemd-239-CVE-2018-16865.patch
+#Patch12:          systemd-239-CVE-2018-16866.patch
+#Patch13:          Backport-FOREACH_STRING-fix-for-gcc9.patch
+#Patch14:          Disable-argument-to-mount_cgroup_controllers.patch
 # This commit from upstream fixes an issue caused by using a later version of meson.
-Patch15:          https://github.com/systemd/systemd/commit/8f6b442a78d0b485f044742ad90b2e8271b4e68e.patch
+#Patch15:          https://github.com/systemd/systemd/commit/8f6b442a78d0b485f044742ad90b2e8271b4e68e.patch
 # This vulnerability is in the strict DNS-over-TLS (DoT) mechanism of systemd-resolve.
 # DoT is only enabled when systemd is build against gnutls.
 # Furthermore, strict mode DoT is not supported before v243.
-Patch16:          CVE-2018-21029.nopatch
+#Patch16:          CVE-2018-21029.nopatch
 
 Obsoletes:        systemd-bootstrap
 Requires:         pam
@@ -82,7 +82,7 @@ Requires:       %{name} = %{version}-%{release}
 Language pack for systemd
 
 %prep
-%setup -q
+%autosetup -n %{name}-stable-%{version}
 cat > config.cache << "EOF"
 KILL=/bin/kill
 HAVE_BLKID=1
@@ -90,23 +90,6 @@ BLKID_LIBS="-lblkid"
 BLKID_CFLAGS="-I/usr/include/blkid"
 cc_cv_CFLAGS__flto=no
 EOF
-
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
 
 sed -i "s#\#DefaultTasksMax=512#DefaultTasksMax=infinity#g" src/core/system.conf.in
 
@@ -215,15 +198,21 @@ rm -rf %{buildroot}/*
 %dir %{_sysconfdir}/udev/hwdb.d
 %config(noreplace) %{_sysconfdir}/udev/udev.conf
 %config(noreplace) /boot/systemd.cfg
-%{_sysconfdir}/systemd/system/*
+#%{_sysconfdir}/systemd/system/*
+/etc/dbus-1/system.d/org.freedesktop.home1.conf
+/etc/systemd/homed.conf
+/etc/systemd/networkd.conf
+/etc/systemd/pstore.conf
+/etc/systemd/sleep.conf
 /lib/udev/*
 /lib/systemd/systemd*
 /lib/systemd/system-*
 /lib/systemd/system/*
-/lib/systemd/network/80-container*
+/lib/systemd/network/*
+/lib/systemd/ntp-units.d/*
 /lib/systemd/*.so
 /lib/systemd/resolv.conf
-/lib/systemd/portablectl
+#/lib/systemd/portablectl
 %config(noreplace) /lib/systemd/network/99-default.link
 %config(noreplace) /lib/systemd/portable/profile/default/service.conf
 %config(noreplace) /lib/systemd/portable/profile/nonetwork/service.conf
@@ -249,7 +238,7 @@ rm -rf %{buildroot}/*
 %{_datadir}/factory/*
 %{_datadir}/dbus-1
 %{_datadir}/doc/*
-%{_mandir}/man[1578]/*
+#%{_mandir}/man[1578]/*
 %{_datadir}/polkit-1
 %{_datadir}/systemd
 %{_datadir}/zsh/*
@@ -266,11 +255,13 @@ rm -rf %{buildroot}/*
 %{_libdir}/pkgconfig/libsystemd.pc
 %{_datadir}/pkgconfig/systemd.pc
 %{_datadir}/pkgconfig/udev.pc
-%{_mandir}/man3/*
+#%{_mandir}/man3/*
 
 %files lang -f %{name}.lang
 
 %changelog
+*  Mon Oct 05 2020 Henry Beberman <henry.beberman@microsoft.com> 246-1
+-  Increment systemd revision to 246.
 *  Mon Aug 24 2020 Leandro Pereira <leperei@microsoft.com> 239-31
 -  Use time.windows.com as the default NTP server in timesyncd.
 *  Tue Aug 11 2020 Mateusz Malisz <mamalisz@microsoft.com> 239-30
