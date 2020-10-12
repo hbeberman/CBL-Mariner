@@ -15,6 +15,7 @@ Source0:        http://www.kernel.org/pub/linux/utils/boot/dracut/dracut-%{versi
 Source1:        https://www.gnu.org/licenses/lgpl-2.1.txt
 Patch1:         disable-xattr.patch
 Patch2:         fix-initrd-naming-for-mariner.patch
+Patch3:         add-systemd-ask-password.patch
 Summary:        dracut to create initramfs
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -47,10 +48,8 @@ Requires: %{name} = %{version}-%{release}
 This package contains tools to assemble the local initrd and host configuration.
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup -p1 -n %{name}-%{version}
 cp %{SOURCE1} .
-%patch1 -p1
-%patch2 -p1
 
 %build
 %configure --systemdsystemunitdir=%{_unitdir} --bashcompletiondir=$(pkg-config --variable=completionsdir bash-completion) \
