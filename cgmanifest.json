@@ -384,6 +384,16 @@
       "component": {
         "type": "other",
         "other": {
+          "name": "bpftrace",
+          "version": "0.11.4",
+          "downloadUrl": "https://github.com/iovisor/bpftrace/archive/v0.11.4.tar.gz"
+        }
+      }
+    },
+    {
+      "component": {
+        "type": "other",
+        "other": {
           "name": "busybox",
           "version": "1.32.0",
           "downloadUrl": "http://www.busybox.net/downloads/busybox-1.32.0.tar.bz2"
