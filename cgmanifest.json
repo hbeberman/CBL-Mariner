@@ -2524,6 +2524,16 @@
       "component": {
         "type": "other",
         "other": {
+          "name": "libmaxminddb",
+          "version": "1.5.0",
+          "downloadUrl": "https://github.com/maxmind/libmaxminddb/releases/download/1.5.0/libmaxminddb-1.5.0.tar.gz"
+        }
+      }
+    },
+    {
+      "component": {
+        "type": "other",
+        "other": {
           "name": "libmbim",
           "version": "1.18.2",
           "downloadUrl": "https://www.freedesktop.org/software/libmbim/libmbim-1.18.2.tar.xz"
