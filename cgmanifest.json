@@ -364,6 +364,16 @@
       "component": {
         "type": "other",
         "other": {
+          "name": "bmon",
+          "version": "4.0",
+          "downloadUrl": "https://github.com/tgraf/bmon/archive/v4.0.tar.gz"
+        }
+      }
+    },
+    {
+      "component": {
+        "type": "other",
+        "other": {
           "name": "bond",
           "version": "8.0.1",
           "downloadUrl": "https://github.com/microsoft/bond/archive/8.0.1.tar.gz"
