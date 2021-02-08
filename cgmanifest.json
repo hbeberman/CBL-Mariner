@@ -2324,6 +2324,16 @@
       "component": {
         "type": "other",
         "other": {
+          "name": "libconfuse",
+          "version": "3.3",
+          "downloadUrl": "https://github.com/libconfuse/libconfuse/releases/download/v3.3/confuse-3.3.tar.gz"
+        }
+      }
+    },
+    {
+      "component": {
+        "type": "other",
+        "other": {
           "name": "libdb",
           "version": "5.3.28",
           "downloadUrl": "http://download.oracle.com/berkeley-db/db-5.3.28.tar.gz"
