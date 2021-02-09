@@ -21,7 +21,7 @@ various output methods including an interactive curses user interface and
 a programmable text output for scripting.
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
 ./autogen.sh

@@ -32,7 +32,7 @@ under GPLv3. It is the new incarnation of the original ntop written in
 %prep
 tar -xf %{SOURCE1}
 mv nDPI-%{nDPIver} nDPI
-%autosetup -b 0
+%autosetup -p1 -b 0
 
 %build
 ./autogen.sh
@@ -40,7 +40,6 @@ mv nDPI-%{nDPIver} nDPI
 %make_build
 
 %install
-mkdir -p %{buildroot}%{_bindir}/
 %make_install
 
 %files

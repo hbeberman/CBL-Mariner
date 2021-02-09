@@ -27,7 +27,7 @@ Requires:       %{name} = %{version}-%{release}
 %{summary}
 
 %prep
-%autosetup -n confuse-%{version}
+%autosetup -p1 -n confuse-%{version}
 
 %build
 %configure

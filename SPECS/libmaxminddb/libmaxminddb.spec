@@ -26,14 +26,13 @@ Requires:       %{name} = %{version}-%{release}
 %{summary}
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
 %configure
 %make_build
 
 %install
-mkdir -p %{buildroot}%{_bindir}/
 %make_install
 find %{buildroot} -type f -name "*.la" -delete -print
 

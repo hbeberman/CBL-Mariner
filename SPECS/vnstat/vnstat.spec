@@ -19,14 +19,13 @@ means that vnStat wont actually be sniffing any traffic and also ensures
 light use of system resources regardless of network traffic rate.
 
 %prep
-%autosetup
+%autosetup -p1
 
 %build
 %configure
 %make_build
 
 %install
-mkdir -p %{buildroot}%{_bindir}/
 mkdir -p %{buildroot}%{_unitdir}/
 %make_install
 %{__install} -p -m 644 examples/systemd/vnstat.service %{buildroot}%{_unitdir}/
