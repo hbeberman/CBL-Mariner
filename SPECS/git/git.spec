@@ -1,7 +1,7 @@
 Summary:        Fast distributed version control system
 Name:           git
 Version:        2.23.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2
 URL:            https://git-scm.com/
 Group:          System Environment/Programming
@@ -9,7 +9,7 @@ Vendor:         Microsoft Corporation
 Distribution:   Mariner
 Source0:        https://www.kernel.org/pub/software/scm/git/%{name}-%{version}.tar.xz
 BuildRequires:  curl-devel
-BuildRequires:  python2
+BuildRequires:  python3
 Requires:       openssl
 Requires:       curl
 Requires:       expat
@@ -18,7 +18,7 @@ Requires:       perl-YAML
 Requires:       perl-DBI
 Requires:       perl-CGI
 Requires:       subversion-perl
-Requires:       python2
+Requires:       python3
 
 %description
 Git is a free and open source, distributed version control system
@@ -87,13 +87,14 @@ rm -rf %{buildroot}/*
 %defattr(-,root,root)
 
 %changelog
+*   Tue Feb 23 2021 Henry Beberman <henry.beberman@microsoft.com> 2.23.3-3
+-   Switch from python2 to python3
 *   Mon Oct 19 2020 Andrew Phelps <anphel@microsoft.com> 2.23.3-2
 -   Fix check test
 *   Thu May 21 2020 Suresh Babu Chalamalasetty <schalam@microsoft.com> 2.23.3-1
 -   Update to version 2.23.3 for fix CVE-2020-11008 and CVE-2020-5260.
-* Sat May 09 00:21:41 PST 2020 Nick Samson <nisamson@microsoft.com> - 2.20.2-2
-- Added %%license line automatically
-
+*   Sat May 09 00:21:41 PST 2020 Nick Samson <nisamson@microsoft.com> - 2.20.2-2
+-   Added %%license line automatically
 *   Mon Apr 06 2020 Emre Girgin <mrgirgin@microsoft.com> 2.20.2-1
 -   Update to latest version.
 *   Tue Sep 03 2019 Mateusz Malisz <mamalisz@microsoft.com> 2.19.0-4
