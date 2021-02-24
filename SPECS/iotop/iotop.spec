@@ -1,41 +1,43 @@
-%{!?python2_sitelib: %global python2_sitelib %(python2 -c "from distutils.sysconfig import get_python_lib;print(get_python_lib())")}
+%{!?python3_sitelib: %global python3_sitelib %(python3 -c "from distutils.sysconfig import get_python_lib;print(get_python_lib())")}
 
-Summary:	Iotop is a Python program with a top like UI used to show the processes and their corresponding IO activity.
-Name:		iotop
-Version:	0.6
-Release:        7%{?dist}
-License:	GPLv2
-URL:		http://guichaz.free.fr/iotop/
-Group:		System/Monitoring
+Summary:        Iotop is a Python program with a top like UI used to show the processes and their corresponding IO activity.
+Name:           iotop
+Version:        0.6
+Release:        8%{?dist}
+License:        GPLv2
+URL:            http://guichaz.free.fr/iotop/
+Group:          System/Monitoring
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
-Source0:	http://guichaz.free.fr/iotop/files/%{name}-%{version}.tar.gz
-%define sha1 iotop=71a0e7043d83673a40d7ddc57f5b50adab7fff2a
-BuildRequires: python2 python2-libs
-Requires:       python2
-Requires:       python2-libs
+Source0:        http://guichaz.free.fr/iotop/files/%{name}-%{version}.tar.gz
+BuildRequires:  python3
+BuildRequires:  python3-libs
+Requires:       python3
+Requires:       python3-libs
+
+Patch0:         fix_python3_compat.patch
 
 BuildArch:      noarch
 
 %description
- Iotop is a Python program with a top like UI used to show the processes and their corresponding IO activity.
+Iotop is a Python program with a top like UI used to show the processes and their corresponding IO activity.
 
 %prep
-%setup -q
+%autosetup
+
 %build
+python3 setup.py build
 
-python2 setup.py build
 %install
-
 #!/bin/bash
 # http://bugs.python.org/issue644744
-python2 setup.py install --prefix=%{_prefix} --root=%{buildroot} --record="INSTALLED_FILES"
+python3 setup.py install --prefix=%{_prefix} --root=%{buildroot} --record="INSTALLED_FILES"
 # 'brp-compress' gzips the man pages without distutils knowing... fix this
 sed -i -e 's@man/man\([[:digit:]]\)/\(.\+\.[[:digit:]]\)$@man/man\1/\2.gz@g' "INSTALLED_FILES"
 sed -i -e 's@\(.\+\)\.py$@\1.py*@' \
        -e '/.\+\.pyc$/d' \
        "INSTALLED_FILES"
-echo "%dir %{python2_sitelib}/iotop" >> INSTALLED_FILES
+echo "%dir %{python3_sitelib}/iotop" >> INSTALLED_FILES
 
 %clean
 rm -rf %{buildroot}/*
@@ -44,12 +46,14 @@ rm -rf %{buildroot}/*
 %defattr(-,root,root)
 %license COPYING
 %doc COPYING NEWS THANKS
-
+%{python3_sitelib}/iotop/*
 
 %changelog
-* Sat May 09 00:21:23 PST 2020 Nick Samson <nisamson@microsoft.com> - 0.6-7
-- Added %%license line automatically
-
+*   Tue Feb 23 2021 Henry Beberman <henry.beberman@microsoft.com> 0.6-8
+-   Switch from python2 to python3.
+-   Add patch from upstream to fix python3.
+*   Sat May 09 00:21:23 PST 2020 Nick Samson <nisamson@microsoft.com> 0.6-7
+-   Added %%license line automatically
 *   Tue Sep 03 2019 Mateusz Malisz <mamalisz@microsoft.com> 0.6-6
 -   Initial CBL-Mariner import from Photon (license: Apache2).
 *	Fri Jun 16 2017 Dheeraj Shetty <dheerajs@vmware.com> 0.6-5
