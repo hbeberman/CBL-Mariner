@@ -1,7 +1,7 @@
 Summary:        The Windows Azure Linux Agent
 Name:           WALinuxAgent
 Version:        2.2.52
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        ASL 2.0
 Vendor:         Microsoft Corporation
 Distribution:   Mariner
@@ -10,21 +10,21 @@ URL:            https://github.com/Azure/WALinuxAgent
 #Source0:        https://github.com/Azure/WALinuxAgent/archive/v%{version}.tar.gz
 Source0:        https://github.com/Azure/WALinuxAgent/archive/%{name}-%{version}.tar.gz
 Patch0:         add-distro.patch
-BuildRequires:  python-distro
-BuildRequires:  python-setuptools
-BuildRequires:  python-xml
-BuildRequires:  python2
-BuildRequires:  python2-libs
+BuildRequires:  python3-distro
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-xml
+BuildRequires:  python3
+BuildRequires:  python3-libs
 BuildRequires:  systemd
 Requires:       /bin/grep
 Requires:       /bin/sed
 Requires:       iptables
 Requires:       openssh
 Requires:       openssl
-Requires:       python-pyasn1
-Requires:       python-xml
-Requires:       python2
-Requires:       python2-libs
+Requires:       python3-pyasn1
+Requires:       python3-xml
+Requires:       python3
+Requires:       python3-libs
 Requires:       sudo
 Requires:       systemd
 Requires:       util-linux
@@ -42,17 +42,17 @@ images that are built to run in the Windows Azure environment.
 %pre -p /bin/sh
 
 %build
-python2 setup.py build -b py2
+python3 setup.py build -b py3
 
 %install
-python2 -tt setup.py build -b py2 install --prefix=%{_prefix} --lnx-distro='mariner' --root=%{buildroot} --force
+python3 -tt setup.py build -b py3 install --prefix=%{_prefix} --lnx-distro='mariner' --root=%{buildroot} --force
 mkdir -p  %{buildroot}/%{_localstatedir}/log
 mkdir -p -m 0700 %{buildroot}/%{_sharedstatedir}/waagent
 mkdir -p %{buildroot}/%{_localstatedir}/log
 touch %{buildroot}/%{_localstatedir}/log/waagent.log
 
 %check
-python2 setup.py check && python2 setup.py test
+python3 setup.py check && python3 setup.py test
 
 %post
 %systemd_post waagent.service
@@ -73,9 +73,12 @@ python2 setup.py check && python2 setup.py test
 %config %{_sysconfdir}/waagent.conf
 %ghost %{_localstatedir}/log/waagent.log
 %dir %attr(0700, root, root) %{_sharedstatedir}/waagent
-%{_lib}/python2.7/site-packages/*
+%{_lib}/python3.7/site-packages/*
 
 %changelog
+* Tue Feb 23 2021 Henry Beberman <henry.beberman@microsoft.com> 2.2.52-3
+- Switch from python2 to python3
+
 * Mon Jan 25 2021 Henry Beberman <henry.beberman@microsoft.com> 2.2.52-2
 - Remove log symlink and use /var/log/waagent.log directly
 
